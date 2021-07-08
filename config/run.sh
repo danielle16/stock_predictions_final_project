@@ -1,0 +1,1 @@
+FLASK_APP=stock_predictions/app.py flask run
