@@ -14,14 +14,25 @@ from tensorflow.keras.layers import LSTM
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+#
+#tf.config.threading.set_intra_op_parallelism_threads(4)
+tf.config.threading.set_inter_op_parallelism_threads(6)
+#5 threads 38s
+#44 threads 47s
+#2 threads 42s
+print("---")
+#intrathreads = tf.config.threading.get_intra_op_parallelism_threads()
+interthreads = tf.config.threading.get_inter_op_parallelism_threads()
+#print("How many intra - threads are we using: " + str(intrathreads) )
+print("How many inter - threads are we using: " + str(interthreads) )
+print("---")
+#
 arguments = sys.argv[1]
 days = sys.argv[2]
 # set seed, so we can get the same results after rerunning several times
 np.random.seed(314)
 tf.random.set_seed(314)
 random.seed(314)
-
-
 
 # Window size or the sequence length
 N_STEPS = 50
