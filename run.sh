@@ -1,1 +1,1 @@
-FLASK_APP=stock_predictions/app.py flask run
+FLASK_APP=stock_predictions/app.py flask run --host=0.0.0.0
