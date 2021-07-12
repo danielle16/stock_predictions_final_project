@@ -14,20 +14,33 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian-3d.min.js"></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+
     <script type="text/javascript">
         function foo() {
-          console.log(this.name);
+          $('th').click(function() {var name1 = $(this).text();
+              
+              var dataTable = anychart.data.parseHtmlTable("#data"); // parse data from HTML table
+              var map = d3.map(dataTable)
+
+              var chart = anychart.column(); // create chart
+              chart.data(dataTable); // specify data source
+              chart.container("container2"); // reference the container Id
+              chart.draw(); // initiate drawing the bar chart
+
+            });
         }
       </script>
 </head>
 
-<body>
+<body onload="foo()">
 
     <div class="jumbotron">
         <h2>Stock Prices | Machine Learning Tool</h2>
         <p class="lead">We identify stock prices using machine learning algorithms.</p>
     </div>
     <div id="container"></div>
+    <div id="container2"></div>
     <!-- Insert Table -->
     {% for table in tables %} 
     {{ table|safe }} 
@@ -35,18 +48,23 @@
     <script>
       anychart.onDocumentLoad(function() {
       var dataTable = anychart.data.parseHtmlTable('#data'); // parse data from HTML table
-      var chart = anychart.column3d(); // create chart
+
+      var chart = anychart.column(); // create chart
+     
+      
       
 
       chart.data(dataTable); // specify data source
 
-      
+     
 
       chart.container("container"); // reference the container Id
       chart.draw(); // initiate drawing the bar chart
       });
       
       </script>
-
+      <div id="div1"></div>
+      <div id="div2"></div>
+      <div id="div3"></div>
 </body>
 </html>
