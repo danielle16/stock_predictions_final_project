@@ -12,7 +12,7 @@ from tensorflow.keras.layers import LSTM
 import numpy as np
 import modin.pandas as pd
 import matplotlib.pyplot as plt
-os.environ["MODIN_CPUS"] = "8"
+os.environ["MODIN_CPUS"] = str(multiprocessing.cpu_count())
 os.environ["MODIN_ENGINE"] = "ray"
 os.environ["MODIN_BACKEND"] = "pandas"
 start = time.perf_counter()
@@ -30,8 +30,8 @@ tf.config.threading.set_inter_op_parallelism_threads(2)
 #print("How many inter - threads are we using: " + str(interthreads) )
 #print("---")
 #
-#arguments = sys.argv[1]
-#days = sys.argv[2]
+arguments = sys.argv[1]
+days = sys.argv[2]
 # set seed, so we can get the same results after rerunning several times
 np.random.seed(314)
 tf.random.set_seed(314)
@@ -40,8 +40,8 @@ random.seed(314)
 # Window size or the sequence length
 N_STEPS = 50
 # Lookup step, 1 is the next day
-#LOOKUP_STEP = int("-"+days)
-LOOKUP_STEP = -2
+LOOKUP_STEP = int("-"+days)
+#LOOKUP_STEP = -2
 # whether to scale feature columns & output price as well
 SCALE = True
 scale_str = f'sc-{int(SCALE)}'
@@ -77,8 +77,8 @@ BATCH_SIZE = 64
 EPOCHS = 10
 
 # Amazon stock market
-#ticker = arguments
-ticker = "ge"
+ticker = arguments
+#ticker = "ge"
 ticker_data_filename = os.path.join("data", f"{ticker}_{date_now}.csv")
 
 def shuffle_in_unison(a, b):
@@ -253,7 +253,7 @@ def plot_graph(test_df):
     plt.xlabel("Days")
     plt.ylabel("Price")
     plt.legend(["Actual Price", "Predicted Price"])
-    plt.show()
+    plt.savefig(f"./stock_predictions/static/img/{ticker}.png")
 
 
 
@@ -406,7 +406,7 @@ final_df.to_csv(csv_filename)
 
 from sqlalchemy import create_engine, Column, Integer, String, Float, inspect
 from sqlalchemy.orm import Session
-engine = create_engine('sqlite:///stock.db')
+engine = create_engine('sqlite:///stock_predictions/stock.db')
 session = Session(bind=engine)
 final_df.to_sql(ticker,if_exists='replace', con=engine)
 session.commit()
