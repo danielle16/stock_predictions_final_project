@@ -91,6 +91,13 @@ def localstock(stock):
     df.sort_values(by=['index'], inplace=True, ascending=False)
     clean_df = df.head(10)
     return render_template('stocks_detail.html', tables=[clean_df.to_html(classes='table table-striped', index=False, table_id = "data")], titles=clean_df.columns.values)
+@app.route("/api/stock_submit/<stock>")
+def submit(stock):
+    cmd_path= os.system('pwd' )
+    cmd_ls = os.system('ls')
+    return render_template('stock_submit.html', cmd_path=cmd_path, cmd_ls=cmd_ls)
+
+
 
 if __name__ == "__main__":
     app.run()
