@@ -91,7 +91,7 @@ def localstock(stock):
     return render_template('stocks_detail.html', tables=[clean_df.to_html(classes='table table-striped', index=False, table_id = "data")], titles=clean_df.columns.values)
 @app.route("/api/stock_submit/<stock>/<days>")
 def submit(stock, days):
-    stream= os.popen(f"python3 ./predict2v.py {stock} {days}")
+    stream= os.popen(f"python3 ./predict2v.pyc {stock} {days}")
     cmd_output = stream.read()
     print(cmd_output)
     return render_template('stocks_submit.html', cmd_output=cmd_output)
