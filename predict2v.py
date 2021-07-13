@@ -253,6 +253,7 @@ def plot_graph(test_df):
     plt.xlabel("Days")
     plt.ylabel("Price")
     plt.legend(["Actual Price", "Predicted Price"])
+    plt.suptitle(f"Stock symbol {ticker}")
     plt.savefig(f"./stock_predictions/static/img/{ticker}.png")
 
 
