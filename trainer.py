@@ -365,7 +365,7 @@ accuracy_score = (len(final_df[final_df['sell_profit'] > 0]) + len(final_df[fina
 total_buy_profit  = final_df["buy_profit"].sum()
 total_sell_profit = final_df["sell_profit"].sum()
 # total profit by adding sell & buy together
-total_profit = total_buy_profit + total_sell_profit
+total_profit = total_buy_profitstock_submit/f/2 + total_sell_profit
 # dividing total profit by number of testing samples (number of trades)
 profit_per_trade = total_profit / len(final_df)
 #
@@ -399,3 +399,4 @@ csv_filename = os.path.join(csv_results_folder, model_name + ".csv")
 final_df.to_csv(csv_filename)
 
 ray.shutdown()
+ 
