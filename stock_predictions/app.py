@@ -1,6 +1,6 @@
 # import necessary libraries
 import os
-import pandas as pd 
+import modin.pandas as pd 
 from sqlalchemy import create_engine, Column, Integer, String, Float, inspect
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
@@ -20,14 +20,12 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 
+
 # from flask_sqlalchemy import SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///../stock.sqlite"
 
 # # Remove tracking modifications
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# db = SQLAlchemy(app)
-
 # from .models import Pet
 
 
@@ -69,7 +67,7 @@ def home():
 #                 "width": 1
 #             },
 #         }
-#     }]
+#     }]async
 
 #     return jsonify(pet_data)
 @app.route("/api/db")
@@ -91,11 +89,12 @@ def localstock(stock):
     df.sort_values(by=['index'], inplace=True, ascending=False)
     clean_df = df.head(10)
     return render_template('stocks_detail.html', tables=[clean_df.to_html(classes='table table-striped', index=False, table_id = "data")], titles=clean_df.columns.values)
-@app.route("/api/stock_submit/<stock>")
-def submit(stock):
-    cmd_path= os.system('pwd' )
-    cmd_ls = os.system('ls')
-    return render_template('stock_submit.html', cmd_path=cmd_path, cmd_ls=cmd_ls)
+@app.route("/api/stock_submit/<stock>/<days>")
+def submit(stock, days):
+    stream= os.popen(f"python3 ./predict2v.py {stock} {days}")
+    cmd_output = stream.read()
+    print(cmd_output)
+    return render_template('stocks_submit.html', cmd_output=cmd_output)
 
 
 
