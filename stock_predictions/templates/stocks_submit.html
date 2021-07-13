@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stock Price Predictions</title>
+    <link href="../static/css/style.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="crossorigin="anonymous"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-cartesian.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian-3d.min.js"></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+
+
+</head>
+
+<body >
+
+    <div class="jumbotron">
+        <h2>Stock Prices | Machine Learning Tool</h2>
+        <p class="lead">We identify stock prices using machine learning algorithms.</p>
+    </div>
+    <div id="container"></div>
+    <div id="container2"></div>
+    <!-- Insert Table -->
+      {{ cmd_path}}
+      {{ cmd_ls}}
+
+</body>
+</html>
