@@ -1,6 +1,6 @@
 # import necessary libraries
 import os
-import modin.pandas as pd 
+import pandas as pd 
 from sqlalchemy import create_engine, Column, Integer, String, Float, inspect
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
