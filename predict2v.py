@@ -10,7 +10,7 @@ from collections import deque
 import os, sys, time, random, multiprocessing
 from tensorflow.keras.layers import LSTM
 import numpy as np
-import modin.pandas as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 os.environ["MODIN_CPUS"] = str(multiprocessing.cpu_count())
 os.environ["MODIN_ENGINE"] = "ray"
