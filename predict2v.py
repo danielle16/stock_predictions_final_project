@@ -18,6 +18,7 @@ os.environ["MODIN_BACKEND"] = "pandas"
 start = time.perf_counter()
 print("CPU COUNT  :  " + str(multiprocessing.cpu_count()))
 tf.config.list_physical_devices('GPU')
+tf.config.experimental.VirtualDeviceConfiguration(memory_limit=256)
 tf.config.threading.set_intra_op_parallelism_threads(2)
 tf.config.threading.set_inter_op_parallelism_threads(2)
 #5 threads 38s
