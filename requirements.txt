@@ -83,7 +83,7 @@ SQLAlchemy==1.4.11
 tensorboard==1.12.2
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
-tensorflow @ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.12.0-py3-none-any.whl
+tensorflow @ https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_cpu-2.5.0-cp39-cp39-manylinux2010_x86_64.whl
 tensorflow-estimator==2.5.0
 termcolor==1.1.0
 threadpoolctl==2.1.0
