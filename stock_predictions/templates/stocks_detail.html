@@ -34,14 +34,27 @@
 </head>
 
 <body onload="foo()">
+  
 
     <div class="jumbotron">
         <h2>Stock Prices | Machine Learning Tool</h2>
         <p class="lead">We identify stock prices using machine learning algorithms.</p>
     </div>
-    <div id="container"></div>
+    <div id="container">
+      
+    </div>
+
     <div id="container2"></div>
+    <img src="http://127.0.0.1:5000/static/img/{{stock}}.png" width="600" height="350" />
+    <div>
+      {% for model in models %} 
+      {{ model|safe }} 
+      {% endfor %}
+
+
+    </div>
     <!-- Insert Table -->
+    
     {% for table in tables %} 
     {{ table|safe }} 
     {% endfor %}

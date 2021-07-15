@@ -12,11 +12,23 @@
     <script type="text/javascript">
         function foo() {
             $('button').click(function() {var name = $(this).attr('name');
-            location.replace("https://stock-predictions-gt-bootcamp.herokuapp.com/api/stock_table/"+name);
+            location.replace("http://127.0.0.1:5000/api/stock_table/"+name);
             console.log(name)
             });
             
         }
+      </script>
+      <script>
+        function search() {
+            $('#input-form').click(function() {
+              name = $('#stock-ticker').val();
+              days = $('#days').val();
+            location.replace("http://127.0.0.1:5000/api/stock_submit/"+name+"/"+days);
+            console.log(name+" -- "+days )
+            });
+            
+        }
+
       </script>
 </head>
 
@@ -28,6 +40,15 @@
     </div>
 
     <!-- Insert Table -->
+    <div id="input-form">
+      <form>
+        <label>Stock Ticker</label>
+        <input type="text" id="stock-ticker">
+        <label>Number of days to predict</label>
+        <input type="text" id="days">
+        <input type="button" onclick="search()" value="Submit">
+      </form>
+    </div>
     <div id="results">
         <table class="table table-striped" style="max-width: 300px;">
           <thead>
@@ -38,7 +59,7 @@
           {% for result in results%}
             <tr>
                 <td>
-                <button name= "{{result}}" onclick="foo()"> {{ result }}</button>
+                <button id="botton-id" name= "{{result}}" onclick="foo()"> {{ result }}</button>
                 </td>
             </tr>
           {% endfor %}
