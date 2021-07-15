@@ -32,7 +32,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///../stock.sqlite"
 # create route that renders index.html template
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index2.html")
 
 
 # # Query the database and send the jsonified results
@@ -72,7 +72,7 @@ def home():
 #     return jsonify(pet_data)
 @app.route("/api/db")
 def localdb():
-    engine = create_engine('sqlite:///stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool)
+    engine = create_engine('sqlite:///./stock_predictions/stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool)
     inspector = inspect(engine)
     results = inspector.get_table_names()
     session = Session(bind=engine)
@@ -81,22 +81,45 @@ def localdb():
     return render_template('stocks.html', results=results)
 @app.route("/api/stock_table/<stock>", methods=("POST", "GET"))
 def localstock(stock):
-    engine = create_engine('sqlite:///stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool).connect()
+    engine = create_engine('sqlite:///./stock_predictions/stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool).connect()
     session = Session(bind=engine)
     df = pd.read_sql_table(stock, engine)
     session.commit()
     session.close()
+    #
+    engine = create_engine('sqlite:///./stock_predictions/stock_model.db', connect_args={'check_same_thread': False}, poolclass = StaticPool).connect()
+    session = Session(bind=engine)
+    df_model = pd.read_sql_table(stock, engine)
+    session.commit()
+    session.close()
+    #
     df.sort_values(by=['index'], inplace=True, ascending=False)
     clean_df = df.head(10)
-    return render_template('stocks_detail.html', tables=[clean_df.to_html(classes='table table-striped', index=False, table_id = "data")], titles=clean_df.columns.values)
+    return render_template('stocks_detail.html', stock=stock, models=[df_model.to_html(classes='table table-striped', index=False, table_id = "model")],tables=[clean_df.to_html(classes='table table-striped', index=False, table_id = "data")], titles=clean_df.columns.values)
 @app.route("/api/stock_submit/<stock>/<days>")
 def submit(stock, days):
-    stream= os.popen(f"python3 ./q-predict2v.py {stock} {days} >output.txt &")
+    stream= os.popen(f"python3 ./q-predict2v.py {stock} {days} ")
     cmd_output = stream.read()
     print(cmd_output)
-    return render_template('stocks_submit.html')
-
-
+    return render_template('stocks_submit.html', cmd_output=cmd_output)
+@app.route("/api/db_clear/<table>")
+def cleardb(table):
+    engine = create_engine('sqlite:///./stock_predictions/stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool)
+    session = Session(bind=engine)
+    #engine.execute(f"DROP TABLE {table}")
+    engine.execute("DROP TABLE *GSPC_model")
+    session.commit()
+    session.close()
+    return redirect("http://127.0.0.1:5000/api/db")
+@app.route("/api/pic")
+def pic():
+    engine = create_engine('sqlite:///./stock_predictions/stock.db', connect_args={'check_same_thread': False}, poolclass = StaticPool)
+    inspector = inspect(engine)
+    results = inspector.get_table_names()
+    session = Session(bind=engine)
+    session.commit()
+    session.close()
+    return jsonify(results)
 
 if __name__ == "__main__":
     app.run()
