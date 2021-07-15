@@ -10,8 +10,10 @@ from collections import deque
 import os, sys, time, random, multiprocessing
 from tensorflow.keras.layers import LSTM
 import numpy as np
-import modin.pandas as pd
+import pandas as pd
 import matplotlib.pyplot as plt
+
+
 os.environ["MODIN_CPUS"] = str(multiprocessing.cpu_count())
 os.environ["MODIN_ENGINE"] = "ray"
 os.environ["MODIN_BACKEND"] = "pandas"
@@ -156,7 +158,7 @@ def load_data(ticker, n_steps=50, scale=True, shuffle=True, lookup_step=1, split
         X.append(seq)
         y.append(target)
 
-    # convert to numpy arrays
+    # convert to numpy arraysstock_submit/dis/1
     X = np.array(X)
     y = np.array(y)
 
@@ -364,7 +366,8 @@ profit_per_trade = total_profit / len(final_df)
 
 
 # printing metrics
-
+list_data = [abs(LOOKUP_STEP),future_price, accuracy_score, total_buy_profit, total_sell_profit, total_profit, profit_per_trade]
+df_model = pd.DataFrame([list_data], columns=["days", "future_price", "Accuracy_score", "total_buy_profit", "total_sell_profit","total_profit" , "profit_per_trade"] )
 print(f"Future price after {abs(LOOKUP_STEP)} days is ${future_price:.2f}")
 print(f"{LOSS} loss:", loss)
 print("Mean Absolute Error:", mean_absolute_error)
@@ -384,13 +387,11 @@ plot_graph(final_df)
 
 
 
-final_df.head(20)
-
 
 
 final_df.tail(20)
 
-
+print(future_price)
 
 
 # save the final dataframe to csv-results folder
@@ -405,12 +406,16 @@ final_df.to_csv(csv_filename)
 
 from sqlalchemy import create_engine, Column, Integer, String, Float, inspect
 from sqlalchemy.orm import Session
-engine = create_engine('sqlite:///stock_predictions/stock.db')
+engine = create_engine('sqlite:///./stock_predictions/stock.db')
 session = Session(bind=engine)
 final_df.to_sql(ticker,if_exists='replace', con=engine)
+#df_model.to_sql(ticker+"_model",if_exists='replace', con=engine)
 session.commit()
 session.close()
 
-
-
+engine = create_engine('sqlite:///./stock_predictions/stock_model.db')
+session = Session(bind=engine)
+df_model.to_sql(ticker,if_exists='replace', con=engine)
+session.commit()
+session.close()
 
