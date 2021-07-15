@@ -14,9 +14,19 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian-3d.min.js"></script>
-    <script type="text/javascript">
+      <script type="text/javascript">
         function foo() {
-          console.log(this.name);
+          $('th').click(function() {var name1 = $(this).text();
+              
+              var dataTable = anychart.data.parseHtmlTable("#data"); // parse data from HTML table
+              var map = d3.map(dataTable)
+
+              var chart = anychart.column(); // create chart
+              chart.data(dataTable); // specify data source
+              chart.container("container2"); // reference the container Id
+              chart.draw(); // initiate drawing the bar chart
+
+            });
         }
       </script>
 </head>
@@ -66,7 +76,17 @@
 
 
 </nav>
+      
     <div id="container"></div>
+          <div id="container2"></div>
+    <img src="https://stock-predictions-gt-bootcamp.herokuapp.com/static/img/{{stock}}.png" width="600" height="350" />
+    <div>
+      {% for model in models %} 
+      {{ model|safe }} 
+      {% endfor %}
+
+
+    </div>
     <!-- Insert Table -->
     {% for table in tables %} 
     {{ table|safe }} 
