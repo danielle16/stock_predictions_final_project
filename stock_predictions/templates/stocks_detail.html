@@ -14,70 +14,78 @@
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian-3d.min.js"></script>
-    <script src='https://d3js.org/d3.v4.min.js'></script>
-
     <script type="text/javascript">
         function foo() {
-          $('th').click(function() {var name1 = $(this).text();
-              
-              var dataTable = anychart.data.parseHtmlTable("#data"); // parse data from HTML table
-              var map = d3.map(dataTable)
-
-              var chart = anychart.column(); // create chart
-              chart.data(dataTable); // specify data source
-              chart.container("container2"); // reference the container Id
-              chart.draw(); // initiate drawing the bar chart
-
-            });
+          console.log(this.name);
         }
       </script>
 </head>
 
-<body onload="foo()">
-  
+<body>
 
-    <div class="jumbotron">
-        <h2>Stock Prices | Machine Learning Tool</h2>
-        <p class="lead">We identify stock prices using machine learning algorithms.</p>
+  <!--Navbar adjustments-->
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">    
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Predict
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="https://public.tableau.com/app/profile/chris.obonaga/viz/Final_Project_16257499612660/iPhoneReleases">Tableau and hypothesis</a>
+                        <a class="dropdown-item" href="https://stock-predictions-gt-bootcamp.herokuapp.com/api/db">Stock Selector</a>
+                        <a class="dropdown-item" href="stocks_detail.html">Model Maker</a>
+                        <a class="dropdown-item" href="https://stock-predictions-gt-bootcamp.herokuapp.com">Home</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+
+            </ul>
+        </div>
     </div>
-    <div id="container">
-      
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">    
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Local
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="https://public.tableau.com/app/profile/chris.obonaga/viz/Final_Project_16257499612660/iPhoneReleases">Tableau and hypothesis</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5000/api/db">Stock Selector</a>
+                        <a class="dropdown-item" href="stocks_detail.html">Model Maker</a>
+                        <a class="dropdown-item" href="http://127.0.0.1:5000">Home</a>
+                    </div>
+                    
+            </ul>
+        </div>
+
     </div>
 
-    <div id="container2"></div>
-    <img src="https://stock-predictions-gt-bootcamp.herokuapp.com/static/img/{{stock}}.png" width="600" height="350" />
-    <div>
-      {% for model in models %} 
-      {{ model|safe }} 
-      {% endfor %}
 
-
-    </div>
+</nav>
+    <div id="container"></div>
     <!-- Insert Table -->
-    
     {% for table in tables %} 
     {{ table|safe }} 
     {% endfor %}
     <script>
       anychart.onDocumentLoad(function() {
       var dataTable = anychart.data.parseHtmlTable('#data'); // parse data from HTML table
-
-      var chart = anychart.column(); // create chart
-     
-      
+      var chart = anychart.column3d(); // create chart
       
 
       chart.data(dataTable); // specify data source
 
-     
+      
 
       chart.container("container"); // reference the container Id
       chart.draw(); // initiate drawing the bar chart
       });
       
       </script>
-      <div id="div1"></div>
-      <div id="div2"></div>
-      <div id="div3"></div>
+
 </body>
 </html>
